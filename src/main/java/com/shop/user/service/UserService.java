@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,6 +22,10 @@ public class UserService {
     public void registerNewUser(NewUser newUser) {
         User user = newUserMapper.mapToUser(newUser);
         userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public User getUserById(UUID id) {
@@ -39,27 +45,27 @@ public class UserService {
     }
 
     @Transactional
-    public void updateBalanceByIdAndBalance(UUID id, int balance) {
+    public void updateBalanceByIdAndBalance(UUID id, BigDecimal balance) {
         User user = userRepository.findUserById(id);
         user.setBalance(balance);
     }
 
     @Transactional
-    public void updateBalanceByUsernameAndBalance(String username, int balance) {
+    public void updateBalanceByUsernameAndBalance(String username, BigDecimal balance) {
         User user = userRepository.findUserByUsername(username);
         user.setBalance(balance);
     }
 
     @Transactional
-    public void addBalanceByIdAndAmount(UUID id, int amount) {
+    public void addBalanceByIdAndAmount(UUID id, BigDecimal amount) {
         User user = userRepository.findUserById(id);
-        user.setBalance(user.getBalance() + amount);
+        user.setBalance(user.getBalance().add(amount));
     }
 
     @Transactional
-    public void addBalanceByUsernameAndAmount(String username, int amount) {
+    public void addBalanceByUsernameAndAmount(String username, BigDecimal amount) {
         User user = userRepository.findUserByUsername(username);
-        user.setBalance(user.getBalance() + amount);
+        user.setBalance(user.getBalance().add(amount));
     }
 
     @Transactional
@@ -84,5 +90,12 @@ public class UserService {
     public void unfreezeByUsername(String username) {
         User user = userRepository.findUserByUsername(username);
         user.setFrozen(false);
+    }
+
+    @Transactional
+    public void purchase(UUID id, BigDecimal value) {
+        User user = userRepository.findUserById(id);
+        BigDecimal newBalance = user.getBalance().subtract(value);
+        user.setBalance(newBalance);
     }
 }

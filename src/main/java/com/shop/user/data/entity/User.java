@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -38,7 +39,7 @@ public class User {
     private String email;
 
     @Column(name = "balance")
-    private int balance = 0;
+    private BigDecimal balance = new BigDecimal(0);
 
     @Column(name = "is_frozen")
     private boolean isFrozen = false;
