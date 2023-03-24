@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS users.users
     username varchar,
     password varchar,
     email varchar,
-    balance int,
+    balance decimal,
     is_frozen boolean
 );

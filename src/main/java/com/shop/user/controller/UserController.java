@@ -6,6 +6,8 @@ import com.shop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +20,11 @@ public class UserController {
     @PostMapping("/register")
     public void registerNewUser(@RequestBody NewUser newUser) {
         userService.registerNewUser(newUser);
+    }
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
@@ -41,22 +48,22 @@ public class UserController {
     }
 
     @PostMapping("/admin/updateBalanceByIdAndBalance/{id}/{balance}")
-    public void updateBalanceByIdAndBalance(@PathVariable UUID id, @PathVariable int balance) {
+    public void updateBalanceByIdAndBalance(@PathVariable UUID id, @PathVariable BigDecimal balance) {
         userService.updateBalanceByIdAndBalance(id, balance);
     }
 
     @PostMapping("/admin/updateBalanceByUsernameAndBalance/{username}/{balance}")
-    public void updateBalanceByUsernameAndBalance(@PathVariable String username, @PathVariable int balance) {
+    public void updateBalanceByUsernameAndBalance(@PathVariable String username, @PathVariable BigDecimal balance) {
         userService.updateBalanceByUsernameAndBalance(username, balance);
     }
 
     @PostMapping("/admin/addBalanceByIdAndAmount/{id}/{amount}")
-    public void addBalanceByIdAndAmount(@PathVariable UUID id, @PathVariable int amount) {
+    public void addBalanceByIdAndAmount(@PathVariable UUID id, @PathVariable BigDecimal amount) {
         userService.addBalanceByIdAndAmount(id, amount);
     }
 
     @PostMapping("/admin/addBalanceByUsernameAndAmount/{username}/{amount}")
-    public void addBalanceByUsernameAndAmount(@PathVariable String username, @PathVariable int amount) {
+    public void addBalanceByUsernameAndAmount(@PathVariable String username, @PathVariable BigDecimal amount) {
         userService.addBalanceByUsernameAndAmount(username, amount);
     }
 
@@ -78,5 +85,10 @@ public class UserController {
     @PostMapping("/admin/unfreezeByUsername/{username}")
     public void unfreezeByUsername(@PathVariable String username) {
         userService.unfreezeByUsername(username);
+    }
+
+    @PostMapping("/purchase/{id}/{value}")
+    public void purchase(@PathVariable UUID id, @PathVariable BigDecimal value) {
+        userService.purchase(id, value);
     }
 }
