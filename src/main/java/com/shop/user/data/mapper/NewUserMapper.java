@@ -10,6 +10,6 @@ public interface NewUserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "isFrozen", ignore = true)
-    @Mapping(target = "balance", ignore = true)
     User mapToUser(NewUser newUser);
+
 }

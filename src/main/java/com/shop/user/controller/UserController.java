@@ -87,8 +87,4 @@ public class UserController {
         userService.unfreezeByUsername(username);
     }
 
-    @PostMapping("/purchase/{id}/{value}")
-    public void purchase(@PathVariable UUID id, @PathVariable BigDecimal value) {
-        userService.purchase(id, value);
-    }
 }

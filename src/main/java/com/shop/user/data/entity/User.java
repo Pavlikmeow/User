@@ -1,5 +1,6 @@
 package com.shop.user.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -39,8 +42,13 @@ public class User {
     private String email;
 
     @Column(name = "balance")
-    private BigDecimal balance = new BigDecimal(0);
+    private BigDecimal balance;
 
     @Column(name = "is_frozen")
     private boolean isFrozen = false;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Notification> notifications = new ArrayList<>();
+
 }

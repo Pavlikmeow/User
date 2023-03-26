@@ -21,6 +21,9 @@ public class UserService {
 
     public void registerNewUser(NewUser newUser) {
         User user = newUserMapper.mapToUser(newUser);
+        if (user.getBalance() == null) {
+            user.setBalance(new BigDecimal(0));
+        }
         userRepository.save(user);
     }
 
@@ -92,10 +95,4 @@ public class UserService {
         user.setFrozen(false);
     }
 
-    @Transactional
-    public void purchase(UUID id, BigDecimal value) {
-        User user = userRepository.findUserById(id);
-        BigDecimal newBalance = user.getBalance().subtract(value);
-        user.setBalance(newBalance);
-    }
 }
